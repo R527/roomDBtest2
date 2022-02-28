@@ -1,13 +1,17 @@
-package com.example.roomdatabasetest;
+package com.example.roomdatabasetest.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Dao;
 
 import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+
+import com.example.roomdatabasetest.R;
+import com.example.roomdatabasetest.db.TaskDao;
+import com.example.roomdatabasetest.db.TaskEntity;
+import com.example.roomdatabasetest.db.TaskRoomDB;
+import com.example.roomdatabasetest.viewmodel.TaskModel;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
@@ -16,10 +20,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
-    private TaskModel taskModel;
     private TaskDao taskDao;
-    private final CompositeDisposable mDisposable = new CompositeDisposable();
-    private Application application;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -27,15 +29,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button btn = (Button)findViewById(R.id.btn);
 
+        //DatabaseをInstace
+        TaskRoomDB db = TaskRoomDB.getInstance(this.getApplicationContext());
+        taskDao = db.taskDao();
 
         btn.setOnClickListener(v -> {
-            //todo
             //タスク追加処理
-            mDisposable.add(insertTask("test")
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(() -> {},
-                            throwable -> Log.e(TAG, "Unable to update username", throwable)));
+            AddTaskDialogFragment dialog = new AddTaskDialogFragment();
+            dialog.show(getSupportFragmentManager(), "AddTaskDialogFragment");
+//            mDisposable.add(insertTask("test")
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(() -> {},
+//                            throwable -> Log.e(TAG, "Unable to update username", throwable)));
         });
     }
 

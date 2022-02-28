@@ -1,8 +1,10 @@
-package com.example.roomdatabasetest;
+package com.example.roomdatabasetest.ui;
 
 import android.content.Context;
 
 import androidx.room.Room;
+
+import com.example.roomdatabasetest.db.TaskRoomDB;
 
 public class TaskDBSingleton {
     private static TaskRoomDB instance = null;
