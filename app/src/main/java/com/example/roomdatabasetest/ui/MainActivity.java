@@ -2,21 +2,15 @@ package com.example.roomdatabasetest.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Application;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
 
 import com.example.roomdatabasetest.R;
 import com.example.roomdatabasetest.db.TaskDao;
 import com.example.roomdatabasetest.db.TaskEntity;
 import com.example.roomdatabasetest.db.TaskRoomDB;
-import com.example.roomdatabasetest.viewmodel.TaskModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
@@ -27,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btn = (Button)findViewById(R.id.btn);
+
+        FloatingActionButton btn = (FloatingActionButton)findViewById(R.id.add_task_button);
 
         //DatabaseをInstace
         TaskRoomDB db = TaskRoomDB.getInstance(this.getApplicationContext());

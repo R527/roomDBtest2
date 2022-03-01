@@ -45,7 +45,8 @@ public class TaskListFragment extends Fragment implements DeleteTaskListener {
 
         View view = inflater.inflate(R.layout.fragment_task_list,container,false);
 
-        taskModel = new ViewModelProvider(this).get(TaskModel.class);
+        taskModel= new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(TaskModel.class);
+
         mRecyclerView = (RecyclerView)view.findViewById(R.id.task_list_view);
         mAdapter = new TaskAdapter();
         mAdapter.setDeleteTaskListener(this);

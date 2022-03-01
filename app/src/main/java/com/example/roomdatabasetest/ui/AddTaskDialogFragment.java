@@ -38,7 +38,8 @@ public class AddTaskDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        taskModel = new ViewModelProvider(this).get(TaskModel.class);
+        taskModel= new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(TaskModel.class);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
