@@ -14,5 +14,11 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp" />
 
+    <CheckBox
+        android:id="@+id/task_important"
+        android:text="重要"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 
 </LinearLayout>
