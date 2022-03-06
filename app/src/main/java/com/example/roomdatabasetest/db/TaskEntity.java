@@ -13,6 +13,9 @@ public class TaskEntity {
     @ColumnInfo(name = "tasks")
     private String task;
 
+    @ColumnInfo(name = "importants")
+    private boolean task_important;
+
     public int getId() {
         return id;
     }
@@ -27,5 +30,13 @@ public class TaskEntity {
 
     public void setTask(String task) {
         this.task = task;
+    }
+
+    public boolean isTask_important() {
+        return task_important;
+    }
+
+    public void setTask_important(boolean task_important) {
+        this.task_important = task_important;
     }
 }

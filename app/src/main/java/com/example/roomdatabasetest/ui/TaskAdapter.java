@@ -19,10 +19,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private static final String TAG = "TaskAdapter";
     private DeleteTaskListener mListener;
-    private List<String> mData;
+    private List<String> mTextData;
+    private List<Boolean> mImportantData;
+
 
     public TaskAdapter() {
-        mData = new ArrayList<String>();
+        mTextData = new ArrayList<String>();
     }
     //ViewHolderとはタスク１とデリートボタンなどをまとめている一つのアイテムを指す
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -60,7 +62,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "Element " + position + " set.");
 
-        holder.getTextView().setText(mData.get(position));
+        holder.getTextView().setText(mTextData.get(position));
         holder.getDeleteTaskButton().setTag(position);
         holder.getDeleteTaskButton().setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -74,11 +76,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mTextData.size();
     }
 
-    public void setData(List<String> data) {
-        mData = data;
+    public void setTextData(List<String> textData) {
+        mTextData = textData;
+        notifyDataSetChanged();
+    }
+
+    public void setImportantData(List<Boolean> importantData){
+        mImportantData = importantData;
         notifyDataSetChanged();
     }
 

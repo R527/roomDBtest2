@@ -2,6 +2,7 @@ package com.example.roomdatabasetest.viewmodel;
 
 import android.app.Application;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -18,9 +19,10 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 
 public class TaskModel extends AndroidViewModel {
-    private final String TAG = "TaskViewModel";
+    private final String TAG = "TaskModel";
     private TaskDao taskDao;
     private List<TaskEntity> mTasks;
+    private List<Boolean> importants;
 
     public TaskModel(@NonNull Application application) {
         super(application);
@@ -45,11 +47,30 @@ public class TaskModel extends AndroidViewModel {
     }
 
 
+    //task重要度を取得する
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Flowable<List<Boolean>> getTaskImportantList(){
+        return taskDao.getAll()
+                //DatabaseにあるTasks＜List＞を取得していじる
+                .map(importants -> {
+                    mTasks = importants;
+                    return importants.stream()
+                            //Stringのみを抽出
+                            //for文で回すのと同じ処理
+                            .map(important -> important.isTask_important())
+                            .collect(Collectors.toList());
+                });
+    }
+
+
     //タスクを追加する処理
-    public Completable insertTask(final String text) {
+    public Completable insertTask(final String text, final boolean important) {
+
+        Log.d(TAG,"insertTask");
         //Entityに登録
         TaskEntity task = new TaskEntity();
         task.setTask(text);
+        task.setTask_important(important);
         //データベースに登録
         return taskDao.insert(task);
     }

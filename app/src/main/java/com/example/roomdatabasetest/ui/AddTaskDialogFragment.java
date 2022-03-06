@@ -3,15 +3,18 @@ package com.example.roomdatabasetest.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -61,11 +64,16 @@ public class AddTaskDialogFragment extends DialogFragment {
 
         builder.setMessage("タスクの追加")
                 .setPositiveButton("OK",new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog,int id){
+
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    public void onClick(DialogInterface dialog, int id){
+                        Log.d(TAG,"onCreateDialog");
+
                         EditText editText = (EditText) getDialog().findViewById(R.id.task_text);
+                        CheckBox checkBox = (CheckBox) getDialog().findViewById(R.id.task_important);
                         if (editText != null) {
                             //タスク追加処理
-                            disposable.add(taskModel.insertTask(editText.getText().toString())
+                            disposable.add(taskModel.insertTask(editText.getText().toString(),checkBox.isChecked())
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(() -> {},

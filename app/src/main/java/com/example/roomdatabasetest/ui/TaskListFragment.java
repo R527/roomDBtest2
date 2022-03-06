@@ -64,7 +64,16 @@ public class TaskListFragment extends Fragment implements DeleteTaskListener {
                 .observeOn(AndroidSchedulers.mainThread())
                 //AdapterにあるRecyclerViewにTextListを渡す
                 .subscribe(textList -> {
-                            mAdapter.setData(textList);
+                            mAdapter.setTextData(textList);
+                        },
+                        throwable -> Log.e(TAG, "Unable to get username", throwable)));
+
+        mDisposable.add(taskModel.getTaskImportantList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                //AdapterにあるRecyclerViewにTextListを渡す
+                .subscribe(importantList -> {
+                            mAdapter.setImportantData(importantList);
                         },
                         throwable -> Log.e(TAG, "Unable to get username", throwable)));
     }
